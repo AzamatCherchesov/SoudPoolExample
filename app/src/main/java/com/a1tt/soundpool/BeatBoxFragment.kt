@@ -21,6 +21,7 @@ class BeatBoxFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         beatBox = BeatBox(activity!!.applicationContext)
+        retainInstance = true
     }
 
     override fun onCreateView(
@@ -37,6 +38,10 @@ class BeatBoxFragment : Fragment() {
         return view
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        beatBox?.release()
+    }
 
     private inner class SoundAdapter(private val soundList: List<Sound>) :
         RecyclerView.Adapter<SoundHolder>() {

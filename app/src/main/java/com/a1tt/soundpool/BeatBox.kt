@@ -10,7 +10,7 @@ import java.util.ArrayList
 class BeatBox(context: Context) {
     private var assetManager: AssetManager = context.assets
     private val sounds = ArrayList<Sound>()
-    private var soundPool: SoundPool
+    private var soundPool: SoundPool = SoundPool(MAX_SOUNDS, AudioManager.STREAM_MUSIC, 0)
 
     fun getSounds(): List<Sound> {
         return sounds
@@ -27,8 +27,6 @@ class BeatBox(context: Context) {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
-        soundPool = SoundPool(MAX_SOUNDS, AudioManager.STREAM_MUSIC, 0)
 
         soundsList?.let {
             for (filePath in it) {
@@ -54,5 +52,9 @@ class BeatBox(context: Context) {
     fun play(sound: Sound) {
         val soundId = sound.getSoundId() ?: return
         soundPool.play(soundId, 1.0f, 1.0f, 1, 1, 1f)
+    }
+
+    fun release() {
+        soundPool.release()
     }
 }
